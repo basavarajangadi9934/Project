@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: springboot-argocd
+  metadata:
+    name: springboot-argo-app
+    namespace: argocd
+  spec:
+    project: default
+    source:
+      repoURL: https://github.com/your-org/demo-repo.git
+      targetVersion: HEAD
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: default
+      
