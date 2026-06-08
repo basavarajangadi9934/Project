@@ -8,8 +8,9 @@ metadata:
   spec:
     project: default
     source:
-      repoURL: https://github.com/your-org/demo-repo.git
-      targetVersion: HEAD
+      repoURL: https://github.com/basavarajangadi9934/Project.git
+      targetVersion: main
+      path: kubernetes-manifest
     destination:
       server: https://kubernetes.default.svc
       namespace: default
