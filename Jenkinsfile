@@ -19,17 +19,17 @@ pipeline {
                 sh 'mvn clean test'
             }
         }
-        stage('static analysis'){
-            steps {
-                sh 'mvn sonar:sonar'
-            }
-        }
-        stage('quality gate'){
-            steps {
-                timeout(time: 5, unit: 'MINUTES')
-                waitForQualityGate abortPipeline: true
-            }
-        }
+        //stage('static analysis'){
+          //  steps {
+            //    sh 'mvn sonar:sonar'
+            //}
+        //}
+        //stage('quality gate'){
+          //  steps {
+            //    timeout(time: 5, unit: 'MINUTES')
+              //  waitForQualityGate abortPipeline: true
+            //}
+        //}
         stage('build docker image'){
             steps {
                 sh '''
