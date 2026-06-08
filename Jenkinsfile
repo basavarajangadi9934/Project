@@ -67,6 +67,7 @@ pipeline {
                     git add kubenetes-manifest/Deployment.yaml
                     git commit -m "update image to $DOCKERHUB_REPO:$TAG"
                     git push -u origin main
+                    '''
             }
         }
     }
