@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    tools {
+        maven 'maven3'
+    }
     environment {
         IMAGE = 'springboot-image'
         TAG = "${env.GIT_COMMIT}"
