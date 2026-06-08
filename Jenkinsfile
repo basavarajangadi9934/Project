@@ -51,11 +51,13 @@ pipeline {
             }
         }
         stage('push image to dockerHub') {
+            steps {
             withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKERUSER', passwordVariable: 'DOCKER_PASSWORD')]){
                 sh '''
                     echo $DOCKER_PASSWORD | docker login -u $DOCKERUSER --password-stdin $REGISTRY
                     docker push $DOCKERHUB_REPO:$TAG
                     '''
+            }
             }
         }
         stage('update kubernetes manifest'){
