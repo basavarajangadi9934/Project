@@ -26,7 +26,7 @@ pipeline {
         }
         stage('quality gate'){
             steps {
-                timeOut(time: 5, unit: 'MINUTES')
+                timeout(time: 5, unit: 'MINUTES')
                 waitForQualityGate abortPipeline: true
             }
         }
@@ -34,7 +34,7 @@ pipeline {
             steps {
                 sh '''
                     docker build -t $IMAGE:$TAG . \
-                    docker tag $IMAGE/$DOCKERHUB_REPO:$TAG 
+                    docker tag $IMAGE:$TAG $DOCKERHUB_REPO:$TAG  
                     '''
             }
         }
@@ -53,6 +53,17 @@ pipeline {
                     echo $DOCKER_PASSWORD | docker login -u $DOCKERUSER --password-stdin $REGISTRY
                     docker push $DOCKERHUB_REPO:$TAG
                     '''
+            }
+        }
+        stage('update kubernetes manifest'){
+            steps{
+                sh '''
+                    sed -i "s|image: .*|image: $DOCKERHUB_REPO:$TAG|" kubernetes-manifest/Deployment.yaml
+                    git config --global user.email "ci@example.com"
+                    git config --global user.name "jenkins"
+                    git add kubenetes-manifest/Deployment.yaml
+                    git commit -m "update image to $DOCKERHUB_REPO:$TAG"
+                    git push -u origin main
             }
         }
     }
